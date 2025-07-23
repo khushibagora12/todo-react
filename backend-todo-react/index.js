@@ -5,6 +5,8 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
+import {z} from 'zod'
+
 dotenv.config()
 const JWT_SECRET = process.env.JWT_SECRET
 const port = process.env.PORT || 8000
@@ -19,6 +21,16 @@ app.use(cors())
 app.post('/signup', async (req, res) => {
     console.log("in here")
     try {
+        const checkSignup = z.object({
+            name: z.string().min(3).max(50),
+            email: z.email().min(5).max(50),
+            password: z.string().min(8).max(20)
+        })
+        const check = checkSignup.safeParse(req.body)
+        if(!check){
+            res.json({message: "incorrect format"});
+            return;
+        }
         const { name, email, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
         const ifExist = await userModel.findOne({ email: email })
@@ -40,6 +52,15 @@ app.post('/signup', async (req, res) => {
 
 app.post('/login', async (req, res) => {
     try {
+        const checkSignup = z.object({
+            email: z.email().min(5).max(50),
+            password: z.string().min(8).max(20)
+        })
+        const check = checkSignup.safeParse(req.body)
+        if(!check){
+            res.json({message: "incorrect format"});
+            return;
+        }
         const { email, password } = req.body;
         const findUser = await userModel.findOne({ email: email })
         if (!findUser) {
