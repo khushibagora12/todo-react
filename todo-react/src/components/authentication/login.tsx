@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
-const url = import.meta.env.VITE_BACKEND_URL;
+// const url = import.meta.env.VITE_BACKEND_URL;
 
 export default function Login() {
         const [email ,setEmail] = useState('')
@@ -20,7 +20,7 @@ export default function Login() {
             }
             console.log(data)
             try {
-                const res = await fetch(`${url}login`, {
+                const res = await fetch('https://todo-react-dlt0.onrender.com/login', {
                     method : "POST",
                     headers: {
                         "content-type" : "application/json",
