@@ -7,7 +7,7 @@ import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 dotenv.config()
 const JWT_SECRET = process.env.JWT_SECRET
-
+const port = process.env.PORT || 8000
 // console.log(process.env.MONGO_URI)
 
 mongoose.connect(process.env.MONGO_URI);
@@ -130,4 +130,4 @@ function authMiddleware(req, res, next) {
     }
 }
 
-app.listen(8000)
+app.listen(port)
