@@ -5,7 +5,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
-const JWT_SECRET = "gqwhd7qdgqwbdq76e672hr892"
+const JWT_SECRET = process.env.JWT_SECRET
 dotenv.config()
 // console.log(process.env.MONGO_URI)
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
 
@@ -20,7 +20,7 @@ export default function Signup() {
             password: password
         }
         try {
-            const res = await fetch('http://localhost:8000/signup', {
+            const res = await fetch('https://todo-react-nine-topaz.vercel.app/signup', {
                 method : "POST",
                 headers: {
                     "content-type" : "application/json"

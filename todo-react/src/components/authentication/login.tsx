@@ -19,7 +19,7 @@ export default function Login() {
             }
             console.log(data)
             try {
-                const res = await fetch('http://localhost:8000/login', {
+                const res = await fetch('https://todo-react-nine-topaz.vercel.app/login', {
                     method : "POST",
                     headers: {
                         "content-type" : "application/json",

@@ -4,10 +4,14 @@ import { useNavigate } from "react-router-dom";
 import type { ObjectId } from "mongoose";
 import { X } from 'lucide-react';
 
+interface Todo {
+    todo : String,
+    id: ObjectId
+}
 
 export default function Todo() {
     const [todo, setTodo] = useState('')
-    const [allTodos, setAllTodos] = useState<string[]>([])
+    const [allTodos, setAllTodos] = useState<Todo[]>([])
     // const [isSignedIn, setisSignedIn] = useState(true)
     const navigate = useNavigate()
 
@@ -29,7 +33,7 @@ export default function Todo() {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token')!
-            const res = await fetch('http://localhost:8000/todos', {
+            const res = await fetch('https://todo-react-nine-topaz.vercel.app/todos', {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -51,7 +55,7 @@ export default function Todo() {
         const getAllTodos = async () => {
             const token = localStorage.getItem('token')!
             try {
-                const res = await fetch('http://localhost:8000/getTodos', {
+                const res = await fetch('https://todo-react-nine-topaz.vercel.app/getTodos', {
                     method: "GET",
                     headers: {
                         "content-type": "application/json",
@@ -59,7 +63,10 @@ export default function Todo() {
                     }
                 })
                 const result = await res.json()
-                setAllTodos(result)
+                for (let i = 0; i < result.length; i++) {
+                    setAllTodos([... allTodos, { todo: result[i].todo, id: result[i]._id }])      
+                }
+                
                 console.log("result get- ", result)
             }
             catch (error: unknown) {
@@ -84,7 +91,7 @@ export default function Todo() {
         }
         try {
             const token = localStorage.getItem('token')!
-            const res = await fetch('http://localhost:8000/delete', {
+            const res = await fetch('https://todo-react-nine-topaz.vercel.app/delete', {
                 method: "POST",
                 headers: {
                         "content-type": "application/json",
@@ -116,11 +123,11 @@ export default function Todo() {
                         </div>
                     </div>
                     <div className="m-10">
-                        {allTodos.map((t, index) => (
+                        {allTodos.map((t , index: number) => (
                             <div key={index}>
                                 <div className="flex">
-                                    <div>{t["todo"]}</div>
-                                    <div className="ml-auto" onClick={() => {deleteHandler(t._id)}}><X color="red"/></div>
+                                    <div>{t.todo}</div>
+                                    <div className="ml-auto" onClick={() => {deleteHandler(t.id)}}><X color="red"/></div>
                                 </div>
                             </div>
                         ))}
