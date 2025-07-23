@@ -8,7 +8,7 @@ interface Todo {
     todo : String,
     id: ObjectId
 }
-const url = import.meta.env.VITE_BACKEND_URL;
+// const url = import.meta.env.VITE_BACKEND_URL;
 
 export default function Todo() {
     const [todo, setTodo] = useState('')
@@ -34,7 +34,7 @@ export default function Todo() {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token')!
-            const res = await fetch(`${url}todos`, {
+            const res = await fetch('https://todo-react-dlt0.onrender.com/todos', {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -56,7 +56,7 @@ export default function Todo() {
         const getAllTodos = async () => {
             const token = localStorage.getItem('token')!
             try {
-                const res = await fetch(`${url}getTodos`, {
+                const res = await fetch('https://todo-react-dlt0.onrender.com/getTodos', {
                     method: "GET",
                     headers: {
                         "content-type": "application/json",
@@ -92,7 +92,7 @@ export default function Todo() {
         }
         try {
             const token = localStorage.getItem('token')!
-            const res = await fetch(`${url}delete`, {
+            const res = await fetch('https://todo-react-dlt0.onrender.com/delete', {
                 method: "POST",
                 headers: {
                         "content-type": "application/json",
