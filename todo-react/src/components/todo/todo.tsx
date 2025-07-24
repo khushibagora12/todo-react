@@ -24,8 +24,6 @@ export default function Todo() {
         },[])
         
     }
-
-
     const addHandler = async (e: React.FormEvent) => {
         const todos = {
             todo: todo
@@ -74,6 +72,7 @@ export default function Todo() {
                 console.log("error in fetching todod: ", error)
             }
         }
+        useEffect(() => {getAllTodos()}, [])
         // getAllTodos();
 
     // }, [])
