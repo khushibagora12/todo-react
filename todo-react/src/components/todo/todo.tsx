@@ -5,7 +5,7 @@ import type { ObjectId } from "mongoose";
 import { X } from 'lucide-react';
 
 interface Todo {
-    todo : String,
+    todo: String,
     id: ObjectId
 }
 // const url = import.meta.env.VITE_BACKEND_URL;
@@ -18,11 +18,11 @@ export default function Todo() {
 
     const token = localStorage.getItem('token')
     console.log("token: ", token)
-    if(!token){
+    if (!token) {
         useEffect(() => {
             navigate('/')
-        },[])
-        
+        }, [])
+
     }
     const addHandler = async (e: React.FormEvent) => {
         const todos = {
@@ -41,7 +41,6 @@ export default function Todo() {
                 body: JSON.stringify(todos)
             })
             const result = await res.json()
-            // console.log("result todos", result)
             toast(result.message)
             setTodo('')
             getAllTodos()
@@ -50,42 +49,36 @@ export default function Todo() {
             console.log("error in storing todo: ", e)
         }
     }
-    // useEffect(() => {
-        const getAllTodos = async () => {
-            const token = localStorage.getItem('token')!
-            try {
-                const res = await fetch('https://todo-react-dlt0.onrender.com/getTodos', {
-                    method: "GET",
-                    headers: {
-                        "content-type": "application/json",
-                        "authorization": token
-                    }
-                })
-                const result = await res.json()
-                setAllTodos(result)
-                // for (let i = 0; i < result.length; i++) {
-                //     setAllTodos([... allTodos, { todo: result[i].todo, id: result[i]._id }])      
-                // }
-                
-                console.log("result get- ", result)
-            }
-            catch (error: unknown) {
-                console.log("error in fetching todod: ", error)
-            }
-        }
-        useEffect(() => {getAllTodos()}, [])
-        // getAllTodos();
+    const getAllTodos = async () => {
+        const token = localStorage.getItem('token')!
+        try {
+            const res = await fetch('https://todo-react-dlt0.onrender.com/getTodos', {
+                method: "GET",
+                headers: {
+                    "content-type": "application/json",
+                    "authorization": token
+                }
+            })
+            const result = await res.json()
+            setAllTodos(result)
 
-    // }, [])
-    const logoutHandler = async() => {
+            console.log("result get- ", result)
+        }
+        catch (error: unknown) {
+            console.log("error in fetching todod: ", error)
+        }
+    }
+    useEffect(() => { getAllTodos() }, [])
+
+    const logoutHandler = async () => {
         toast("Logging out...")
         setTimeout(() => {
             localStorage.setItem('token', '')
             navigate('/login')
-        },3000)
-        
+        }, 3000)
+
     }
-    const deleteHandler = async(id: ObjectId) => {
+    const deleteHandler = async (id: ObjectId) => {
         console.log(id)
         const userId = {
             id: id
@@ -95,8 +88,8 @@ export default function Todo() {
             const res = await fetch('https://todo-react-dlt0.onrender.com/delete', {
                 method: "POST",
                 headers: {
-                        "content-type": "application/json",
-                        "authorization": token
+                    "content-type": "application/json",
+                    "authorization": token
                 },
                 body: JSON.stringify(userId)
             })
@@ -104,7 +97,7 @@ export default function Todo() {
             toast("todo deleted", result.message)
             getAllTodos()
         } catch (error) {
-            
+
         }
     }
     return (
@@ -124,11 +117,11 @@ export default function Todo() {
                         </div>
                     </div>
                     <div className="m-10">
-                        {allTodos.map((t , index: number) => (
+                        {allTodos.map((t, index: number) => (
                             <div key={index}>
                                 <div className="flex">
                                     <div>{t.todo}</div>
-                                    <div className="ml-auto" onClick={() => {deleteHandler(t.id)}}><X color="red"/></div>
+                                    <div className="ml-auto" onClick={() => { deleteHandler(t.id) }}><X color="red" /></div>
                                 </div>
                             </div>
                         ))}
