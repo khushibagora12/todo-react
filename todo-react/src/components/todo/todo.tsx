@@ -62,9 +62,10 @@ export default function Todo() {
                     }
                 })
                 const result = await res.json()
-                for (let i = 0; i < result.length; i++) {
-                    setAllTodos([... allTodos, { todo: result[i].todo, id: result[i]._id }])      
-                }
+                setAllTodos(result)
+                // for (let i = 0; i < result.length; i++) {
+                //     setAllTodos([... allTodos, { todo: result[i].todo, id: result[i]._id }])      
+                // }
                 
                 console.log("result get- ", result)
             }
